@@ -11,13 +11,31 @@
 |
 */
 
-Route::get('/', 'HomeController@index')->name('Home');
+Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/about', 'HomeController@about')->name('About');
+Route::get('/about', 'HomeController@about')->name('about');
 
-Route::get('/news','NewsController@index')->name('News');
-Route::get('/news/{id}','NewsController@view')->name('NewsView')->where('id', '[0-9]+');
+route::group([
+    'prefix' => 'news',
+    'as' => 'news.'
+], function () {
+    Route::get('/', 'NewsController@index')->name('index');
+    Route::get('/{id}', 'NewsController@view')->where('id', '[0-9]+')->name('view');
+    Route::get('/category', 'NewsController@category')->name('category');
+    Route::get('/category/{name}', 'NewsController@category')->where('name', '[a-z0-9-]+')->name('category.view');
+});
 
-Route::get('/category','CategoryController@index')->name('Category');
+route::group([
+    'prefix' => 'news',
+    'as' => 'category.'
+], function () {
+    Route::get('/category', 'CategoryController@index')->name('index');
+});
 
-Route::get('/admin', 'admin\AdminController@index')->name('Admin');
+route::group([
+    'prefix' => 'admin',
+    'namespace' => 'admin',
+    'as' => 'admin.'
+], function () {
+    Route::get('/', 'AdminController@index')->name('index');
+});

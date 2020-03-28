@@ -1,6 +1,6 @@
 <div>
-    <a href="<?= route('Home') ?>">Главная страница</a> |
-    <a href="<?= route('Admin') ?>">добавить новость</a>
+    <a href="<?= route('home') ?>">Главная страница</a> |
+    <a href="<?= route('admin.index') ?>">Админка</a>
 </div>
 
 <hr>

@@ -90,4 +90,17 @@ class News
     {
         return static::$news[array_search($id, array_column(static::$news, 'id'))];
     }
+
+    public static function getNewsByCategory($category_id)
+    {
+        $arr = [];
+
+        foreach (static::$news as $item) {
+            if ($item['category_id'] == $category_id) {
+                $arr[] = $item;
+            }
+        }
+
+        return $arr;
+    }
 }
