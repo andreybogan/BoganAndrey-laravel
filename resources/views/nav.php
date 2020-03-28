@@ -1,5 +1,8 @@
 <div>
-    <a href="/">Главная страница</a> | <a href="/about">О проекте</a> | <a href="/news">Новости</a>
+    <a href="<?= route('Home') ?>">Главная страница</a> |
+    <a href="<?= route('News') ?>">Новости</a> |
+    <a href="<?= route('About') ?>">О проекте</a> |
+    <a href="<?= route('Admin') ?>">Админка</a>
 </div>
 
 <hr>

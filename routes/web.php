@@ -11,37 +11,13 @@
 |
 */
 
-/**
- * Главная страница.
- */
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', 'HomeController@index')->name('Home');
 
-/**
- * Страница О проекте
- */
-Route::get('/about', function () {
-    return view('about');
-});
+Route::get('/about', 'HomeController@about')->name('About');
 
-/**
- * Главная страница новостей.
- */
-Route::get('/news', function () {
-    return view('news');
-});
+Route::get('/news','NewsController@index')->name('News');
+Route::get('/news/{id}','NewsController@view')->name('NewsView')->where('id', '[0-9]+');
 
-/**
- * Новость 1
- */
-Route::get('/news/1', function () {
-    return view('new-1');
-});
+Route::get('/category','CategoryController@index')->name('Category');
 
-/**
- * Новость 2
- */
-Route::get('/news/2', function () {
-    return view('new-2');
-});
+Route::get('/admin', 'admin\AdminController@index')->name('Admin');
