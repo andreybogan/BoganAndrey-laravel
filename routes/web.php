@@ -26,13 +26,6 @@ route::group([
 });
 
 route::group([
-    'prefix' => 'news',
-    'as' => 'category.'
-], function () {
-    Route::get('/category', 'CategoryController@index')->name('index');
-});
-
-route::group([
     'prefix' => 'admin',
     'namespace' => 'admin',
     'as' => 'admin.'
