@@ -83,13 +83,11 @@ class News
 
     public static function getNews()
     {
-        $news = static::$news;
-        return array_fill_keys(array_column($news, 'id'), $news[array_search($news, array_column($news, 'id'))]);
+        return static::$news;
     }
 
     public static function getOneNews($id)
     {
-        $news = self::getNews();
-        return $news[$id];
+        return static::$news[array_search($id, array_column(static::$news, 'id'))];
     }
 }
