@@ -11,37 +11,24 @@
 |
 */
 
-/**
- * Главная страница.
- */
-Route::get('/', function () {
-    return view('index');
+Route::get('/', 'HomeController@index')->name('home');
+
+Route::get('/about', 'HomeController@about')->name('about');
+
+route::group([
+    'prefix' => 'news',
+    'as' => 'news.'
+], function () {
+    Route::get('/', 'NewsController@index')->name('index');
+    Route::get('/{id}', 'NewsController@view')->where('id', '[0-9]+')->name('view');
+    Route::get('/category', 'NewsController@category')->name('category');
+    Route::get('/category/{name}', 'NewsController@category')->where('name', '[a-z0-9-]+')->name('category.view');
 });
 
-/**
- * Страница О проекте
- */
-Route::get('/about', function () {
-    return view('about');
-});
-
-/**
- * Главная страница новостей.
- */
-Route::get('/news', function () {
-    return view('news');
-});
-
-/**
- * Новость 1
- */
-Route::get('/news/1', function () {
-    return view('new-1');
-});
-
-/**
- * Новость 2
- */
-Route::get('/news/2', function () {
-    return view('new-2');
+route::group([
+    'prefix' => 'admin',
+    'namespace' => 'admin',
+    'as' => 'admin.'
+], function () {
+    Route::get('/', 'AdminController@index')->name('index');
 });
