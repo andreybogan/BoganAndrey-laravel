@@ -62,10 +62,10 @@ class Category
 
     /**
      * Метод возвращает одну категорию по названию URL категории.
-     * @param int|null $url
+     * @param string|null $url
      * @return mixed|null
      */
-    public static function getOneCategoryByUrl(?int $url)
+    public static function getOneCategoryByUrl(?string $url)
     {
         if (is_null($url)){
             return null;
