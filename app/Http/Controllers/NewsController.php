@@ -25,9 +25,14 @@ class NewsController extends Controller
     {
         // получаем ID категории по его url
         $category = Category::getOneCategoryByUrl($name);
-        // получаем ID категории по его url
-        $categoryId = $category['id'];
-        $news = News::getNewsByCategory($categoryId);
+
+        if ($category) {
+            // получаем ID категории по его url
+            $categoryId = $category['id'];
+            $news = News::getNewsByCategory($categoryId);
+        } else {
+            $news = [];
+        }
 
         return view('news.category-view', ['news' => $news]);
     }

@@ -4,6 +4,10 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Category
+ * @package App\Model
+ */
 class Category
 {
     private static $categories = [
@@ -29,18 +33,48 @@ class Category
         ],
     ];
 
+    /**
+     * Методо возвращает массив категорий.
+     * @return array
+     */
     public static function getCategory()
     {
         return static::$categories;
     }
 
-    public static function getOneCategory($id)
+    /**
+     * Метод возвращает одну категорию по ID.
+     * @param int|null $category_id
+     * @return mixed|null
+     */
+    public static function getOneCategory(?int $category_id)
     {
-        return static::$categories[array_search($id, array_column(static::$categories, 'id'))];
+        if (is_null($category_id)){
+            return null;
+        }
+
+        if ($id = array_search($category_id, array_column(static::$categories, 'url'))) {
+            return static::$categories[$id];
+        }
+
+        return null;
     }
 
-    public static function getOneCategoryByUrl($id)
+    /**
+     * Метод возвращает одну категорию по названию URL категории.
+     * @param int|null $url
+     * @return mixed|null
+     */
+    public static function getOneCategoryByUrl(?int $url)
     {
-        return static::$categories[array_search($id, array_column(static::$categories, 'url'))];
+        if (is_null($url)){
+            return null;
+        }
+
+        if ($id = array_search($url, array_column(static::$categories, 'url'))) {
+            return static::$categories[$id];
+        }
+
+        return null;
     }
 }

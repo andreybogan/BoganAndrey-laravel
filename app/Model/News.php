@@ -4,6 +4,10 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class News
+ * @package App\Model
+ */
 class News
 {
     private static $news = [
@@ -81,19 +85,46 @@ class News
         ],
     ];
 
+    /**
+     * Метод возвращает массив новостей.
+     * @return array
+     */
     public static function getNews()
     {
         return static::$news;
     }
 
-    public static function getOneNews($id)
+
+    /**
+     * Метод возвращает одну новость по ее ID.
+     * @param int|null $news_id
+     * @return mixed|null
+     */
+    public static function getOneNews(?int $news_id)
     {
-        return static::$news[array_search($id, array_column(static::$news, 'id'))];
+        if (is_null($news_id)){
+            return null;
+        }
+
+        if ($id = array_search($news_id, array_column(static::$news, 'id'))) {
+            return static::$news[$id];
+        }
+
+        return null;
     }
 
-    public static function getNewsByCategory($category_id)
+    /**
+     * Метод возвращает массив новостей по ID категории новостей.
+     * @param int|null $category_id
+     * @return array
+     */
+    public static function getNewsByCategory(?int $category_id)
     {
         $arr = [];
+
+        if (is_null($category_id)){
+            return $arr;
+        }
 
         foreach (static::$news as $item) {
             if ($item['category_id'] == $category_id) {
