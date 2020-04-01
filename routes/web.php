@@ -31,6 +31,7 @@ route::group([
     'as' => 'admin.'
 ], function () {
     Route::get('/', 'AdminController@index')->name('index');
+    Route::get('/news-add', 'AdminController@add')->name('news.add');
 });
 
 Auth::routes();
