@@ -18,7 +18,14 @@ class NewsController extends Controller
     public function view($id)
     {
         $oneNews = News::getOneNews($id);
+
         return view('news.view', ['oneNews' => $oneNews]);
+    }
+
+    public function categories()
+    {
+        $categories = Category::getCategory();
+        return view('news.categories', ['categories' => $categories]);
     }
 
     public function category($name)
@@ -34,6 +41,6 @@ class NewsController extends Controller
             $news = [];
         }
 
-        return view('news.category-view', ['news' => $news]);
+        return view('news.category', ['news' => $news, 'category' => $category]);
     }
 }

@@ -21,7 +21,7 @@ route::group([
 ], function () {
     Route::get('/', 'NewsController@index')->name('index');
     Route::get('/{id}', 'NewsController@view')->where('id', '[0-9]+')->name('view');
-    Route::get('/category', 'NewsController@category')->name('category');
+    Route::get('/category', 'NewsController@categories')->name('category.index');
     Route::get('/category/{name}', 'NewsController@category')->where('name', '[a-z0-9-]+')->name('category.view');
 });
 
@@ -31,4 +31,9 @@ route::group([
     'as' => 'admin.'
 ], function () {
     Route::get('/', 'AdminController@index')->name('index');
+    Route::get('/news-add', 'AdminController@add')->name('news.add');
 });
+
+Auth::routes();
+
+//Route::get('/home', 'HomeController@index')->name('home');

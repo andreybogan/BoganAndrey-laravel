@@ -49,11 +49,13 @@ class Category
      */
     public static function getOneCategory(?int $category_id)
     {
-        if (is_null($category_id)){
+        if (is_null($category_id)) {
             return null;
         }
 
-        if ($id = array_search($category_id, array_column(static::$categories, 'url'))) {
+        $id = array_search($category_id, array_column(static::$categories, 'id'));
+
+        if (is_int($id) && array_key_exists($id, static::$categories)) {
             return static::$categories[$id];
         }
 
@@ -62,16 +64,18 @@ class Category
 
     /**
      * Метод возвращает одну категорию по названию URL категории.
-     * @param int|null $url
+     * @param string|null $url
      * @return mixed|null
      */
-    public static function getOneCategoryByUrl(?int $url)
+    public static function getOneCategoryByUrl(?string $url)
     {
-        if (is_null($url)){
+        if (is_null($url)) {
             return null;
         }
 
-        if ($id = array_search($url, array_column(static::$categories, 'url'))) {
+        $id = array_search($url, array_column(static::$categories, 'url'));
+
+        if (is_int($id) && array_key_exists($id, static::$categories)) {
             return static::$categories[$id];
         }
 
