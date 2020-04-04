@@ -19,7 +19,6 @@ class AdminController extends Controller
     {
         $categories = Category::getCategory();
 
-//            var_dump(File::get(storage_path(). '/json/news.json'));
         if ($request->isMethod('post')) {
             $request->flash();
             $newNews = $request->all();
@@ -38,11 +37,16 @@ class AdminController extends Controller
                 'title' => $newNews['title'],
                 'text' => $newNews['text'],
                 'category_id' => $newNews['category_id'],
-                'isPrivate' => isset($newNews['private']) ? true : false,
+                'isPrivate' => isset($newNews['private']) && $newNews['private'] ? true : false,
             ];
 
-            var_dump($news); exit;
-            return redirect()->route('admin.news.create');
+            // Преобразовываем массив в json.
+            $jsonNews = json_encode($news);
+
+            // Записываем данные в файл.
+            File::put(storage_path() . '/json/news.json', $jsonNews);
+
+            return redirect()->route('news.view', $count);
         }
 
         return view('admin.create', ['categories' => $categories]);
@@ -51,6 +55,5 @@ class AdminController extends Controller
     public function downloadJsonCategory()
     {
         return response()->download(storage_path() . '/json/category.json');
-//        return File::get(storage_path(). '/json/category.json');
     }
 }
