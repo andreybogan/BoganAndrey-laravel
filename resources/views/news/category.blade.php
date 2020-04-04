@@ -22,6 +22,8 @@
             <p class="h5">{{ $item['title'] }}</p>
             @if(!$item['isPrivate'])
                 <a href="{{ route('news.view', $item['id']) }}">Подробнее...</a>
+            @else
+                <span style="font-size: small; color: #a9a9a9; font-style: italic;">Новость доступна только для зарегистрированных пользователей</span>
             @endif
             <hr>
         @empty
