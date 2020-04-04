@@ -54,6 +54,8 @@ class AdminController extends Controller
 
     public function downloadJsonCategory()
     {
-        return response()->download(storage_path() . '/json/category.json');
+        return response()->json(json_decode(File::get(storage_path() . '/json/category.json')))
+            ->header('Content-Disposition', 'attachment; filename = "category.json"')
+            ->setEncodingOptions(JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
 }
