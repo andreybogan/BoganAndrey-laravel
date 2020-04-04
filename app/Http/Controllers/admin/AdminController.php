@@ -37,7 +37,7 @@ class AdminController extends Controller
                 'title' => $newNews['title'],
                 'text' => $newNews['text'],
                 'category_id' => $newNews['category_id'],
-                'isPrivate' => isset($newNews['private']) && $newNews['private'] ? true : false,
+                'isPrivate' => isset($newNews['private']) ? true : false,
             ];
 
             // Преобразовываем массив в json.
