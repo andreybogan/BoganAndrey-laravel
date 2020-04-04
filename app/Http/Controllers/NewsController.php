@@ -19,6 +19,9 @@ class NewsController extends Controller
     {
         $oneNews = News::getOneNews($id);
 
+        // Преобразовываем разрывы строки в абзацы
+        $oneNews['text'] = News::wrapTextInTag($oneNews['text'], 'p');
+
         return view('news.view', ['oneNews' => $oneNews]);
     }
 

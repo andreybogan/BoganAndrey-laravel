@@ -31,7 +31,8 @@ route::group([
     'as' => 'admin.'
 ], function () {
     Route::get('/', 'AdminController@index')->name('index');
-    Route::get('/news-add', 'AdminController@add')->name('news.add');
+    Route::match(['get', 'post'],'/create', 'AdminController@create')->name('news.create');
+    Route::get('/download-json-category', 'AdminController@downloadJsonCategory')->name('downloadJsonCategory');
 });
 
 Auth::routes();

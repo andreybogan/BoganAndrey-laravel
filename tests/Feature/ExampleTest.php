@@ -17,5 +17,16 @@ class ExampleTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(200);
+
+        $response->assertSeeText('Добро пожаловать на главную страницу!');
+    }
+
+    public function testNewsTest()
+    {
+        $response = $this->get('/news');
+
+        $response->assertStatus(200);
+
+        $response->assertSeeText('Последние новости');
     }
 }

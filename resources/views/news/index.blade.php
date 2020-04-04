@@ -20,22 +20,25 @@
 
             <h2>Категории новостей</h2>
 
-            @forelse ($categories as $item)
-                <li><a href="{{ route('news.category.view', $item['url']) }}">{{ $item['title'] }}</a></li>
-            @empty
-                <p>Нет категорий</p>
-            @endforelse
+            @foreach($categories as $item)
+                <a href="{{ route('news.category.view', $item['url']) }}">
+                    <button type="button" class="btn btn-dark">{{ $item['title'] }}</button>
+                </a>
+            @endforeach
 
         </div>
 
         <div style="margin-top: 24px;">
 
-            <h2>Все новости</h2>
+            <h2>Последние новости</h2>
+            <hr>
 
             @forelse($news as $item)
                 <p class="h5">{{ $item['title'] }}</p>
                 @if(!$item['isPrivate'])
                     <a href="{{ route('news.view', $item['id']) }}">Подробнее...</a>
+                @else
+                    <span style="font-size: small; color: #a9a9a9; font-style: italic;">Новость доступна только для зарегистрированных пользователей</span>
                 @endif
                 <hr>
             @empty

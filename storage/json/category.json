@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "title": "\u0421\u043f\u043e\u0440\u0442",
+        "url": "sport"
+    },
+    {
+        "id": 2,
+        "title": "\u041d\u0430\u0443\u043a\u0430",
+        "url": "science"
+    },
+    {
+        "id": 3,
+        "title": "\u041f\u043e\u043b\u0438\u0442\u0438\u043a\u0430",
+        "url": "politics"
+    },
+    {
+        "id": 4,
+        "title": "\u0417\u0434\u043e\u0440\u043e\u0432\u044c\u0435",
+        "url": "health"
+    }
+]

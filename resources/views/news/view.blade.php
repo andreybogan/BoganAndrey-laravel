@@ -18,7 +18,7 @@
 
         @if($oneNews && !$oneNews['isPrivate'])
             <h2>{{ $oneNews['title'] }}</h2>
-            <p>{{ $oneNews['text'] }}</p>
+            <p>{!! $oneNews['text'] !!}</p>
         @elseif($oneNews && $oneNews['isPrivate'])
             <h2>{{ $oneNews['title'] }}</h2>
             <p>Эта новость доступна только зарегистрировавшимся пользвователям.</p>
