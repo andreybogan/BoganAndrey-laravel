@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "title": "Спорт",
+        "url": "sport"
+    },
+    {
+        "id": 2,
+        "title": "Наука",
+        "url": "science"
+    },
+    {
+        "id": 3,
+        "title": "Политика",
+        "url": "politics"
+    },
+    {
+        "id": 4,
+        "title": "Здоровье",
+        "url": "health"
+    }
+]

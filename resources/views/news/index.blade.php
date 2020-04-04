@@ -20,17 +20,15 @@
 
             <h2>Категории новостей</h2>
 
-            @forelse ($categories as $item)
-                <li><a href="{{ route('news.category.view', $item['url']) }}">{{ $item['title'] }}</a></li>
-            @empty
-                <p>Нет категорий</p>
-            @endforelse
+            @foreach($categories as $item)
+                <a href="{{ route('news.category.view', $item['url']) }}"><button type="button" class="btn btn-dark">{{ $item['title'] }}</button></a>
+            @endforeach
 
         </div>
 
         <div style="margin-top: 24px;">
 
-            <h2>Все новости</h2>
+            <h2>Последние новости</h2>
 
             @forelse($news as $item)
                 <p class="h5">{{ $item['title'] }}</p>
