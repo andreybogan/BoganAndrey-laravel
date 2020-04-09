@@ -7,6 +7,8 @@ use App\Model\News;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Storage;
+use DB;
 
 class AdminController extends Controller
 {
@@ -17,36 +19,31 @@ class AdminController extends Controller
 
     public function create(Request $request)
     {
-        $categories = Category::getCategory();
+        $categories = DB::table('categories')->get();
 
         if ($request->isMethod('post')) {
             $request->flash();
             $newNews = $request->all();
 
-            $news = json_decode(File::get(storage_path() . '/json/news.json'), true);
+            $url = null;
 
-            // Вычисляем ID новой новости.
-            if (is_array($news)) {
-                $count = max($news)['id'] + 1;
-            } else {
-                $count = 1;
+            if ($request->file('image')) {
+                $path = Storage::putFile('public/images', $request->file('image'));
+                $url = Storage::url($path);
             }
 
-            $news[$count] = [
-                'id' => $count,
-                'title' => $newNews['title'],
-                'text' => $newNews['text'],
-                'category_id' => $newNews['category_id'],
-                'isPrivate' => isset($newNews['private']) ? true : false,
-            ];
+            // Добавляем новость в базу и получим последний добавленный ID.
+            $id = DB::table('news')->insertGetId(
+                [
+                    'title' => $newNews['title'],
+                    'text' => $newNews['text'],
+                    'category_id' => $newNews['category_id'],
+                    'private' => isset($newNews['private']) ? true : false,
+                    'image' => $url,
+                ]
+            );
 
-            // Преобразовываем массив в json.
-            $jsonNews = json_encode($news);
-
-            // Записываем данные в файл.
-            File::put(storage_path() . '/json/news.json', $jsonNews);
-
-            return redirect()->route('news.view', $count);
+            return redirect()->route('news.view', $id)->with('success', 'Новость успешно добавлена!');
         }
 
         return view('admin.create', ['categories' => $categories]);
