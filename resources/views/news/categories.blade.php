@@ -19,7 +19,7 @@
         <h2>Категории новостей</h2>
 
         @forelse ($categories as $item)
-            <li><a href="{{ route('news.category.view', $item['url']) }}">{{ $item['title'] }}</a></li>
+            <li><a href="{{ route('news.category.view', $item->slug) }}">{{ $item->title }}</a></li>
         @empty
             <p>Нет категорий</p>
         @endforelse

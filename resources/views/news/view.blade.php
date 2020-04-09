@@ -3,7 +3,7 @@
 
 {{-- title --}}
 @section('title')
-    @parent {{ $oneNews['title'] }}
+    @parent {{ $oneNews->title }}
 @endsection
 
 {{-- Основная навигация --}}
@@ -16,11 +16,12 @@
 
     <div class="col-md-12">
 
-        @if($oneNews && !$oneNews['isPrivate'])
-            <h2>{{ $oneNews['title'] }}</h2>
-            <p>{!! $oneNews['text'] !!}</p>
-        @elseif($oneNews && $oneNews['isPrivate'])
-            <h2>{{ $oneNews['title'] }}</h2>
+        @if($oneNews && !$oneNews->private)
+            <h2>{{ $oneNews->title }}</h2>
+            <div class="img-news" style="background-image: url({{ $oneNews->image ?? asset('storage/images/default.jpg') }})"></div>
+            <p>{!! $oneNews->text !!}</p>
+        @elseif($oneNews && $oneNews->private)
+            <h2>{{ $oneNews->title }}</h2>
             <p>Эта новость доступна только зарегистрировавшимся пользвователям.</p>
         @else
             <p>Такой новости не существует</p>

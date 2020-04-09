@@ -20,13 +20,17 @@
         <hr>
 
         @forelse($news as $item)
-            <p class="h5">{{ $item['title'] }}</p>
-            @if(!$item['isPrivate'])
-                <a href="{{ route('news.view', $item['id']) }}">Подробнее...</a>
-            @else
-                <span style="font-size: small; color: #a9a9a9; font-style: italic;">Новость доступна только для зарегистрированных пользователей</span>
-            @endif
-            <hr>
+            <div class="box-card">
+                <div class="card-img" style="background-image: url({{ $item['image'] ?? asset('storage/images/default.jpg') }})"></div>
+                <div class="card-text">
+                    <p class="h5">{{ $item['title'] }}</p>
+                    @if(!$item['isPrivate'])
+                        <a href="{{ route('news.view', $item['id']) }}">Подробнее...</a>
+                    @else
+                        <span style="font-size: small; color: #a9a9a9; font-style: italic;">Новость доступна только для зарегистрированных пользователей</span>
+                    @endif
+                </div>
+            </div>
         @empty
             <p>Нет новостей</p>
         @endforelse
