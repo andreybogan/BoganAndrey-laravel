@@ -41,8 +41,12 @@ class NewsController extends Controller
 
         if ($category) {
             // получаем ID категории по его url
-            $categoryId = $category['id'];
-            $news = News::getNewsByCategory($categoryId);
+            $categoryId = $category->id;
+//            $news = News::getNewsByCategory($categoryId);
+            $news = DB::table('news')->join('categories', function ($join) use ($category) {
+                $join->on('categories.id', '=', 'news.category_id')
+                    ->where('categories.id', '=', $category->id)->select('news.*');
+            })->get();
         } else {
             $news = [];
         }
