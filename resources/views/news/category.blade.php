@@ -47,6 +47,11 @@
             @empty
                 <p>Нет новостей</p>
             @endforelse
+
+            <div style="margin: 24px 0">
+                {{ $news->links() }}
+            </div>
+
         </div>
 
     </div>

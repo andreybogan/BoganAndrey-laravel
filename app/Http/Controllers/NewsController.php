@@ -65,7 +65,10 @@ class NewsController extends Controller
         /** @var Category $category */
         $category = Category::query()->where(['slug' => $name])->first();
 
-        $news = $category->news();
+        // Можно было бы сделать так, но нам нужно сделать пагинацию.
+//        $news = $category->news();
+
+        $news = News::query()->where(['category_id' => $category->id])->orderByDesc('id')->paginate(5);
 
         return view('news.category', ['news' => $news, 'categories' => $categories, 'category' => $category]);
     }
