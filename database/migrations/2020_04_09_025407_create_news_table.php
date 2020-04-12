@@ -19,7 +19,6 @@ class CreateNewsTable extends Migration
             $table->text('text');
             $table->boolean(('private'))->default(false);
             $table->string('image')->nullable(true);
-            $table->bigInteger('category_id')->unsigned();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

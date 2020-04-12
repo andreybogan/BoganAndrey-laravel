@@ -1,14 +1,15 @@
 <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
-    <a class="nav-link" href="{{ route('home') }}">Главная страница</a>
+    <a class="nav-link" href="{{ route('home') }}">Домой</a>
+</li>
+<li class="nav-item active">
+    <span class="nav-link">Меню администратора: </span>
 </li>
 <li class="nav-item {{ request()->routeIs('admin.index') ? 'active' : '' }}">
-    <a class="nav-link" href="{{ route('admin.index') }}">Админка</a>
+    <a class="nav-link" href="{{ route('admin.index') }}">Главная</a>
 </li>
-
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Меню</a>
-    <div class="dropdown-menu">
-        <a class="dropdown-item" href="{{ route('admin.news.create') }}">Добавить новость</a>
-        <a class="dropdown-item" href="{{ route('admin.downloadJsonCategory') }}">Скачать JSON файл категорий</a>
-    </div>
+<li class="nav-item {{ request()->routeIs('admin.news.index') || request()->routeIs('admin.news.create') || request()->routeIs('admin.news.update') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('admin.news.index') }}">Новости</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('admin.downloadJsonCategory') }}">Скачать JSON файл категорий</a>
 </li>

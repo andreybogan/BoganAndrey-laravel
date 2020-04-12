@@ -9,52 +9,63 @@ use DB;
 
 class NewsController extends Controller
 {
+    /**
+     * Выводим список новостей.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         // Получаем все новости.
-        $news = DB::table('news')->get();
+        $news = News::query()->orderByDesc('id')->paginate(5);
+
         // Получаем все категории.
-        $categories = DB::table('categories')->get();
+        $categories = Category::all();
+
         return view('news.index', ['news' => $news, 'categories' => $categories]);
     }
 
-    public function view($id)
+    /**
+     * Выводим новость по заданному ID.
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function show($id)
     {
         // Получаем новость.
-        $oneNews = DB::table('news')->find($id);
+        $oneNews = News::query()->find($id);
 
-        if ($oneNews) {
-            // Преобразовываем разрывы строки в абзацы
-            $oneNews->text = News::wrapTextInTag($oneNews->text, 'p');
-        }
+        // Преобразовываем разрывы строки в абзацы.
+        $oneNews->text = News::wrapTextInTag($oneNews->text, 'p');
 
-        return view('news.view', ['oneNews' => $oneNews]);
+        return view('news.show', ['oneNews' => $oneNews]);
     }
 
+    /**
+     * Выводим список категорий.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function categories()
     {
         // Получаем все категории.
-        $categories = DB::table('categories')->get();
+        $categories = Category::all();
+
         return view('news.categories', ['categories' => $categories]);
     }
 
+    /**
+     * Выводим новости по заданным категориям.
+     * @param $name
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function category($name)
     {
         // Получаем все категории.
-        $categories = DB::table('categories')->get();
+        $categories = Category::all();
 
-        // получаем ID категории по его url
-        $category = DB::table('categories')->where(['slug' => $name])->first();
+        /** @var Category $category */
+        $category = Category::query()->where(['slug' => $name])->first();
 
-        if ($category) {
-            // получаем ID категории по его url
-            $news = DB::table('news')->select('news.*')->join('categories', function ($join) use ($category) {
-                $join->on('categories.id', '=', 'news.category_id')
-                    ->where('categories.id', '=', $category->id);
-            })->get();
-        } else {
-            $news = [];
-        }
+        $news = $category->news();
 
         return view('news.category', ['news' => $news, 'categories' => $categories, 'category' => $category]);
     }
