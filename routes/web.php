@@ -20,21 +20,29 @@ route::group([
     'as' => 'news.'
 ], function () {
     Route::get('/', 'NewsController@index')->name('index');
-    Route::get('/{id}', 'NewsController@view')->where('id', '[0-9]+')->name('view');
+    Route::get('/{id}', 'NewsController@show')->where('id', '[0-9]+')->name('show');
     Route::get('/category', 'NewsController@categories')->name('category.index');
     Route::get('/category/{name}', 'NewsController@category')->where('name', '[a-z0-9-]+')->name('category.view');
 });
 
 route::group([
     'prefix' => 'admin',
-    'namespace' => 'admin',
+    'namespace' => 'Admin',
     'as' => 'admin.'
 ], function () {
     Route::get('/', 'AdminController@index')->name('index');
-    Route::match(['get', 'post'],'/create', 'AdminController@create')->name('news.create');
     Route::get('/download-json-category', 'AdminController@downloadJsonCategory')->name('downloadJsonCategory');
+    Route::group([
+        'prefix' => 'news',
+        'as' => 'news.'
+    ], function (){
+        Route::get('/', 'NewsController@index')->name('index');
+        Route::match(['get','post'], '/create', 'NewsController@create')->name('create');
+        Route::get('/edit/{id}', 'NewsController@edit')->name('edit');
+        Route::post('/update/{id}', 'NewsController@update')->name('update');
+        Route::get('/destroy/{id}', 'NewsController@destroy')->name('destroy');
+    });
+
 });
 
 Auth::routes();
-
-//Route::get('/home', 'HomeController@index')->name('home');

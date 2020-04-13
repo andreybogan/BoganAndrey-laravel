@@ -8,7 +8,7 @@
 
 {{-- Основная навигация --}}
 @section('nav')
-    @include('admin.nav')
+    @include('Admin.nav')
 @endsection
 
 {{-- Контенти --}}

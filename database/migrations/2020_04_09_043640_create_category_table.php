@@ -17,6 +17,8 @@ class CreateCategoryTable extends Migration
             $table->bigIncrements('id')->unsigned();
             $table->string('title', 45);
             $table->string('slug', 45);
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
     }
 

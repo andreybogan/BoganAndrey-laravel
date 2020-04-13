@@ -39,7 +39,7 @@
                     <div class="card-text">
                         <p class="h5">{{ $item->title }}</p>
                         @if(!$item->private)
-                            <a href="{{ route('news.view', $item->id) }}">Подробнее...</a>
+                            <a href="{{ route('news.show', $item->id) }}">Подробнее...</a>
                         @else
                             <span style="font-size: small; color: #a9a9a9; font-style: italic;">Новость доступна только для зарегистрированных пользователей</span>
                         @endif
@@ -48,6 +48,10 @@
             @empty
                 <p>Нет новостей</p>
             @endforelse
+
+            <div style="margin: 24px 0">
+                {{ $news->links() }}
+            </div>
 
         </div>
 
