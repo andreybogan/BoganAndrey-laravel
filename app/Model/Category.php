@@ -9,11 +9,11 @@ class Category extends Model
     protected $fillable = ['title', 'slug'];
 
     /**
-     * олучаем все новости для категории текущей модели.
-     * @return \Illuminate\Database\Eloquent\Collection
+     * олучаем запрос всех новостей для категории текущей модели.
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function news()
     {
-        return $this->hasMany(News::class, 'category_id')->get();
+        return $this->hasMany(News::class, 'category_id');
     }
 }

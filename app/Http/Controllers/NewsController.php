@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Model\Category;
 use App\Model\News;
-use Illuminate\Http\Request;
-use DB;
 
 class NewsController extends Controller
 {
@@ -29,15 +27,12 @@ class NewsController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($id)
+    public function show(News $news)
     {
-        // Получаем новость.
-        $oneNews = News::query()->find($id);
-
         // Преобразовываем разрывы строки в абзацы.
-        $oneNews->text = News::wrapTextInTag($oneNews->text, 'p');
+        $news->text = News::wrapTextInTag($news->text, 'p');
 
-        return view('news.show', ['oneNews' => $oneNews]);
+        return view('news.show', ['oneNews' => $news]);
     }
 
     /**
@@ -54,21 +49,19 @@ class NewsController extends Controller
 
     /**
      * Выводим новости по заданным категориям.
-     * @param $name
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param $slug
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function category($name)
+    public function category($slug)
     {
         // Получаем все категории.
         $categories = Category::all();
 
         /** @var Category $category */
-        $category = Category::query()->where(['slug' => $name])->first();
+        $category = Category::query()->where(['slug' => $slug])->first();
 
-        // Можно было бы сделать так, но нам нужно сделать пагинацию.
-//        $news = $category->news();
-
-        $news = News::query()->where(['category_id' => $category->id])->orderByDesc('id')->paginate(5);
+        // Получаем все новости в данной категории.
+        $news = $category->news()->orderByDesc('id')->paginate(5);
 
         return view('news.category', ['news' => $news, 'categories' => $categories, 'category' => $category]);
     }

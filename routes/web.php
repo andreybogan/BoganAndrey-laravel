@@ -20,9 +20,9 @@ route::group([
     'as' => 'news.'
 ], function () {
     Route::get('/', 'NewsController@index')->name('index');
-    Route::get('/{id}', 'NewsController@show')->where('id', '[0-9]+')->name('show');
+    Route::get('/{news}', 'NewsController@show')->where('id', '[0-9]+')->name('show');
     Route::get('/category', 'NewsController@categories')->name('category.index');
-    Route::get('/category/{name}', 'NewsController@category')->where('name', '[a-z0-9-]+')->name('category.view');
+    Route::get('/category/{slug}', 'NewsController@category')->where('slug', '[a-z0-9-]+')->name('category.view');
 });
 
 route::group([
@@ -38,9 +38,9 @@ route::group([
     ], function (){
         Route::get('/', 'NewsController@index')->name('index');
         Route::match(['get','post'], '/create', 'NewsController@create')->name('create');
-        Route::get('/edit/{id}', 'NewsController@edit')->name('edit');
-        Route::post('/update/{id}', 'NewsController@update')->name('update');
-        Route::get('/destroy/{id}', 'NewsController@destroy')->name('destroy');
+        Route::get('/edit/{news}', 'NewsController@edit')->name('edit');
+        Route::post('/update/{news}', 'NewsController@update')->name('update');
+        Route::get('/destroy/{news}', 'NewsController@destroy')->name('destroy');
     });
 
 });

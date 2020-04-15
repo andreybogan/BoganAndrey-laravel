@@ -43,11 +43,11 @@ class News extends Model
     }
 
     /**
-     * Получаем категорию новости текующего объекта.
+     * Получаем запрос категории новости текующего объекта.
      * @return Model|\Illuminate\Database\Eloquent\Relations\BelongsTo|object|null
      */
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id')->first();
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }
