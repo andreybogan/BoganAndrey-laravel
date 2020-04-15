@@ -110,7 +110,7 @@
                     <div class="form-group row mb-0">
                         <div class="col-md-6 offset-md-3">
                             <button type="submit" class="btn btn-primary">
-                                @if($news->id)Изменить@elseДобавить@endif новость
+                                @if($news->id){{__('Изменить')}}@else{{__('Добавить')}}@endif новость
                             </button>
                         </div>
                     </div>
