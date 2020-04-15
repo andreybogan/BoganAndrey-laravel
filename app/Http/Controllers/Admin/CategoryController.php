@@ -26,7 +26,8 @@ class CategoryController extends Controller
     /**
      * Добавление категории.
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function create(Request $request)
     {
@@ -55,16 +56,20 @@ class CategoryController extends Controller
      * Редактирование категории.
      * @param Request $request
      * @param Category $category
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, Category $category)
     {
         // Если переданные данные, то обрабатываем их и перенаправляем на страницу со списком категорий.
         if ($this->isMethodPostSaveNews($request, $category)) {
             return redirect()->route('admin.category.index')->with('success', 'Категория успешно изменена!');
-        }
+        } else {
+            // Перенесим данные для текущего запроса в сеанс.
+            $request->flash();
 
-        return view('admin.category-create', ['category' => $category]);
+            return view('admin.category-create', ['category' => $category]);
+        }
     }
 
     /**
@@ -84,16 +89,18 @@ class CategoryController extends Controller
      * Метод сохраняет категорию, если данные поступили через POST.
      * @param Request $request
      * @param Category $category
-     * @return bool|\Illuminate\Http\RedirectResponse
+     * @return bool
+     * @throws \Illuminate\Validation\ValidationException
      */
     private function isMethodPostSaveNews(Request $request, Category $category)
     {
         // Если переданные данные, то обрабатываем их.
         if ($request->isMethod('post')) {
-            $request->flash();
+            // Выполняем валидацию данных.
+            $data = $this->validate($request, Category::rules(), [], Category::attributeNames());
 
             // Заполняем модель данными.
-            $category->fill($request->all());
+            $category->fill($data);
 
             // Добавляем slug.
             $category->slug = Str::slug($category->title, '-');

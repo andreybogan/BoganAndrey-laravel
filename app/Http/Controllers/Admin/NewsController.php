@@ -25,7 +25,8 @@ class NewsController extends Controller
     /**
      * Добавление новости.
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function create(Request $request)
     {
@@ -60,7 +61,8 @@ class NewsController extends Controller
      * Редактирование новости.
      * @param Request $request
      * @param News $news
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, News $news)
     {
@@ -70,9 +72,12 @@ class NewsController extends Controller
         // Если переданные данные, то обрабатываем их и перенаправляем на страницу со списком новостей.
         if ($this->isMethodPostSaveNews($request, $news)) {
             return redirect()->route('admin.news.index')->with('success', 'Новость успешно изменена!');
-        }
+        } else {
+            // Перенесим данные для текущего запроса в сеанс.
+            $request->flash();
 
-        return view('admin.news-create', ['categories' => $categories, 'news' => $news]);
+            return view('admin.news-create', ['categories' => $categories, 'news' => $news]);
+        }
     }
 
     /**
@@ -92,16 +97,15 @@ class NewsController extends Controller
      * Метод сохраняет новость, если данные поступили через POST.
      * @param Request $request
      * @param News $news
-     * @return bool|\Illuminate\Http\RedirectResponse
+     * @return bool
+     * @throws \Illuminate\Validation\ValidationException
      */
     private function isMethodPostSaveNews(Request $request, News $news)
     {
         // Если переданные данные, то обрабатываем их.
         if ($request->isMethod('post')) {
-            $request->flash();
-
-            // Заполняем модель данными.
-            $news->fill($request->all());
+            // Выполняем валидацию данных.
+            $data = $this->validate($request, News::rules(), [], News::attributeNames());
 
             // Если есть изображением то сохраняем его и добавляем в модель.
             $url = null;
@@ -109,6 +113,9 @@ class NewsController extends Controller
                 $path = Storage::putFile('public/images', $request->file('image'));
                 $news->image = Storage::url($path);
             }
+
+            // Заполняем модель данными.
+            $news->fill($data);
 
             // Сохранаяем модель.
             $news->save();

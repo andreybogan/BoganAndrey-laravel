@@ -84,6 +84,15 @@
     </div>
 @endif
 
+@if (session('errors'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span style="font-weight: bold">Внимание!</span> При заполнении формы возникли ошибки
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
+
 <!-- Подключаем основное содержимое -->
 <main class="py-4">
     <div class="container">
