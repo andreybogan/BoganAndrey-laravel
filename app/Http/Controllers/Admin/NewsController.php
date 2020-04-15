@@ -90,7 +90,9 @@ class NewsController extends Controller
     {
         if ($news->delete()) {
             return redirect()->route('admin.news.index')->with('success', 'Новость удалена!');
-        };
+        } else {
+            return redirect()->route('admin.news.index')->with('error', 'Новость не удалена!');
+        }
     }
 
     /**

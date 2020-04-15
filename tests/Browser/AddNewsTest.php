@@ -19,8 +19,7 @@ class AddNewsTest extends DuskTestCase
                 ->assertSee('Добавление новости')
                 ->type('title', '123')
                 ->type('text', '123')
-                ->type('private', '123')
-                ->type('category_id', '123')
+                ->select('category_id', '100000')
                 ->press('Добавить новость')
                 ->assertPathIs('/admin/news/create');
         });

@@ -33,8 +33,7 @@
 
                         <div class="col-md-9">
                             <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
-                                   name="title" value="{{ $category->title ?? old('title') }}" required
-                                   autocomplete="title"
+                                   name="title" value="{{ $category->title ?? old('title') }}" autocomplete="title"
                                    autofocus>
 
                             @error('title')
@@ -48,7 +47,7 @@
                     <div class="form-group row mb-0">
                         <div class="col-md-6 offset-md-3">
                             <button type="submit" class="btn btn-primary">
-                                @if($category->id) Изменить @else Добавить @endif категорию
+                                @if($category->id)Изменить@elseДобавить@endif категорию
                             </button>
                         </div>
                     </div>

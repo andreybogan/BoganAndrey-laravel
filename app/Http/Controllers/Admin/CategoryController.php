@@ -82,7 +82,9 @@ class CategoryController extends Controller
     {
         if ($category->delete()) {
             return redirect()->route('admin.category.index')->with('success', 'Категория удалена!');
-        };
+        } else {
+            return redirect()->route('admin.category.index')->with('error', 'Категория не удалена!');
+        }
     }
 
     /**

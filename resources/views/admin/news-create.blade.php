@@ -33,7 +33,7 @@
 
                         <div class="col-md-9">
                             <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
-                                   name="title" value="{{ $news->title ?? old('title') }}" required autocomplete="title"
+                                   name="title" value="{{ $news->title ?? old('title') }}" autocomplete="title"
                                    autofocus>
 
                             @error('title')
@@ -50,7 +50,7 @@
 
                         <div class="col-md-9">
                             <select id="category" class="form-control @error('category_id') is-invalid @enderror"
-                                    name="category_id" required autocomplete="category">
+                                    name="category_id" autocomplete="category">
                                 <option>Выберите категорию</option>
                                 @foreach($categories as $item)
                                     <option value="{{ $item->id }}"
@@ -71,8 +71,7 @@
 
                         <div class="col-md-9">
                         <textarea id="text" class="form-control @error('text') is-invalid @enderror" name="text"
-                                  rows="5" required
-                                  autocomplete="text">{{ $news->text ?? old('text') }}</textarea>
+                                  rows="5" autocomplete="text">{{ $news->text ?? old('text') }}</textarea>
 
                             @error('text')
                             <span class="invalid-feedback" role="alert">
