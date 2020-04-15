@@ -45,16 +45,13 @@ class NewsController extends Controller
 
     /**
      * Вывод страницы с редактирюемой новостью.
-     * @param int $id
+     * @param News $news
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(int $id)
+    public function edit(News $news)
     {
         // Получаем все категории.
         $categories = Category::query()->select(['id', 'title'])->get();
-
-        /** @var News $news */
-        $news = News::query()->find($id);
 
         return view('admin.news-create', ['categories' => $categories, 'news' => $news]);
     }

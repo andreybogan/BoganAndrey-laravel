@@ -42,6 +42,16 @@ route::group([
         Route::post('/update/{news}', 'NewsController@update')->name('update');
         Route::get('/destroy/{news}', 'NewsController@destroy')->name('destroy');
     });
+    Route::group([
+        'prefix' => 'category',
+        'as' => 'category.'
+    ], function (){
+        Route::get('/', 'CategoryController@index')->name('index');
+        Route::match(['get','post'], '/create', 'CategoryController@create')->name('create');
+        Route::get('/edit/{category}', 'CategoryController@edit')->name('edit');
+        Route::post('/update/{category}', 'CategoryController@update')->name('update');
+        Route::get('/destroy/{category}', 'CategoryController@destroy')->name('destroy');
+    });
 
 });
 
