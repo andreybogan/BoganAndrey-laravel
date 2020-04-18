@@ -45,7 +45,7 @@
 
                         <div class="col-md-6">
                             <input id="password" type="password"
-                                   class="form-control @error('password') is-invalid @enderror" name="password" required>
+                                   class="form-control @error('password') is-invalid @enderror" name="password">
 
                             @error('password')
                             <span class="invalid-feedback" role="alert">
@@ -60,7 +60,7 @@
 
                         <div class="col-md-6">
                             <input id="new-password" type="password"
-                                   class="form-control @error('new_password') is-invalid @enderror" name="new_password" required>
+                                   class="form-control @error('new_password') is-invalid @enderror" name="new_password">
 
                             @error('new_password')
                             <span class="invalid-feedback" role="alert">
@@ -76,7 +76,7 @@
 
                         <div class="col-md-6">
                             <input id="password-confirm" type="password" class="form-control"
-                                   name="password_confirmation" required>
+                                   name="password_confirmation">
                         </div>
                     </div>
 
