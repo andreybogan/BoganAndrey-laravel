@@ -24,9 +24,10 @@
 
             <div class="card-body">
                 <form method="POST"
-                      action="@if(!$news->id){{ route('admin.news.create') }}@else{{ route('admin.news.update', $news->id) }}@endif"
+                      action="@if(!$news->id){{ route('admin.news.store') }}@else{{ route('admin.news.update', $news) }}@endif"
                       enctype="multipart/form-data">
                     @csrf
+                    @if($news->id) @method('PUT') @endif
 
                     <div class="form-group row">
                         <label for="title" class="col-md-3 col-form-label text-md-right">Название</label>
