@@ -28,7 +28,8 @@ route::group([
 route::group([
     'prefix' => 'admin',
     'namespace' => 'Admin',
-    'as' => 'admin.'
+    'as' => 'admin.',
+    'middleware' => ['auth', 'is_admin']
 ], function () {
     Route::get('/', 'AdminController@index')->name('index');
     Route::get('/download-json-category', 'AdminController@downloadJsonCategory')->name('downloadJsonCategory');
@@ -42,18 +43,15 @@ route::group([
     Route::get('/category/{some}', function () {
         abort(404);
     });
+});
 
-//    Route::group([
-//        'prefix' => 'category',
-//        'as' => 'category.'
-//    ], function () {
-//        Route::get('/', 'CategoryController@index')->name('index');
-//        Route::match(['get', 'post'], '/create', 'CategoryController@create')->name('create');
-//        Route::get('/edit/{category}', 'CategoryController@edit')->name('edit');
-//        Route::post('/update/{category}', 'CategoryController@update')->name('update');
-//        Route::get('/destroy/{category}', 'CategoryController@destroy')->name('destroy');
-//    });
-
+route::group([
+    'prefix' => 'user',
+    'namespace' => 'User',
+    'as' => 'user.',
+    'middleware' => 'auth'
+], function () {
+    Route::match(['get','post'], '/user/update-profile','ProfileController@update')->name('updateProfile');
 });
 
 Auth::routes();
