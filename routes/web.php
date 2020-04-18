@@ -43,6 +43,18 @@ route::group([
     Route::get('/category/{some}', function () {
         abort(404);
     });
+
+    route::group([
+        'prefix' => 'user',
+        'as' => 'user.'
+    ], function () {
+        Route::get('/', 'UserController@index')->name('index');
+        Route::get('/toggle-admin/{user}', 'UserController@toggleAdmin')->name('toggleAdmin');
+        Route::get('/{some}', function () {
+            abort(404);
+        });
+    });
+
 });
 
 route::group([
@@ -51,7 +63,7 @@ route::group([
     'as' => 'user.',
     'middleware' => 'auth'
 ], function () {
-    Route::match(['get','post'], '/user/update-profile','ProfileController@update')->name('updateProfile');
+    Route::match(['get', 'post'], '/user/update-profile', 'ProfileController@update')->name('updateProfile');
 });
 
 Auth::routes();
