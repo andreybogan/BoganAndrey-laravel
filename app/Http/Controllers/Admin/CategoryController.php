@@ -24,22 +24,34 @@ class CategoryController extends Controller
     }
 
     /**
-     * Добавление категории.
+     * Форма добавления категории.
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function create(Request $request)
+    public function create()
     {
         // Создаем новый объект категории.
         $category = new Category();
 
-        // Если переданные данные, то обрабатываем их и перенаправляем на страницу со списком категорий.
-        if ($this->isMethodPostSaveNews($request, $category)) {
-            return redirect()->route('admin.category.index')->with('success', 'Категория успешно добавлена!');
-        }
-
         return view('admin.category-create', ['category' => $category]);
+    }
+
+    /**
+     * Добавляем категорию.
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function store(Request $request)
+    {
+        // Создаем новый объект категории.
+        $category = new Category();
+
+        // Обрабатываем полученные данные и, в случае успешной валидации, перенаправляем на страницу со списком категорий.
+        $this->isMethodPostSaveCategory($request, $category);
+
+        return redirect()->route('admin.category.index')->with('success', 'Категория успешно добавлена!');
     }
 
     /**
@@ -62,14 +74,9 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         // Если переданные данные, то обрабатываем их и перенаправляем на страницу со списком категорий.
-        if ($this->isMethodPostSaveNews($request, $category)) {
-            return redirect()->route('admin.category.index')->with('success', 'Категория успешно изменена!');
-        } else {
-            // Перенесим данные для текущего запроса в сеанс.
-            $request->flash();
+        $this->isMethodPostSaveCategory($request, $category);
 
-            return view('admin.category-create', ['category' => $category]);
-        }
+        return redirect()->route('admin.category.index')->with('success', 'Категория успешно изменена!');
     }
 
     /**
@@ -94,25 +101,20 @@ class CategoryController extends Controller
      * @return bool
      * @throws \Illuminate\Validation\ValidationException
      */
-    private function isMethodPostSaveNews(Request $request, Category $category)
+    private function isMethodPostSaveCategory(Request $request, Category $category)
     {
-        // Если переданные данные, то обрабатываем их.
-        if ($request->isMethod('post')) {
-            // Выполняем валидацию данных.
-            $data = $this->validate($request, Category::rules(), [], Category::attributeNames());
+        // Выполняем валидацию данных.
+        $data = $this->validate($request, Category::rules(), [], Category::attributeNames());
 
-            // Заполняем модель данными.
-            $category->fill($data);
+        // Заполняем модель данными.
+        $category->fill($data);
 
-            // Добавляем slug.
-            $category->slug = Str::slug($category->title, '-');
+        // Добавляем slug.
+        $category->slug = Str::slug($category->title, '-');
 
-            // Сохранаяем модель.
-            $category->save();
+        // Сохранаяем модель.
+        $category->save();
 
-            return true;
-        }
-
-        return false;
+        return true;
     }
 }

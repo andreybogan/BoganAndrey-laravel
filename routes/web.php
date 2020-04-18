@@ -38,16 +38,21 @@ route::group([
         abort(404);
     });
 
-    Route::group([
-        'prefix' => 'category',
-        'as' => 'category.'
-    ], function () {
-        Route::get('/', 'CategoryController@index')->name('index');
-        Route::match(['get', 'post'], '/create', 'CategoryController@create')->name('create');
-        Route::get('/edit/{category}', 'CategoryController@edit')->name('edit');
-        Route::post('/update/{category}', 'CategoryController@update')->name('update');
-        Route::get('/destroy/{category}', 'CategoryController@destroy')->name('destroy');
+    Route::resource('/category', 'CategoryController')->except('show');
+    Route::get('/category/{some}', function () {
+        abort(404);
     });
+
+//    Route::group([
+//        'prefix' => 'category',
+//        'as' => 'category.'
+//    ], function () {
+//        Route::get('/', 'CategoryController@index')->name('index');
+//        Route::match(['get', 'post'], '/create', 'CategoryController@create')->name('create');
+//        Route::get('/edit/{category}', 'CategoryController@edit')->name('edit');
+//        Route::post('/update/{category}', 'CategoryController@update')->name('update');
+//        Route::get('/destroy/{category}', 'CategoryController@destroy')->name('destroy');
+//    });
 
 });
 

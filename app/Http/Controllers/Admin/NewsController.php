@@ -24,10 +24,9 @@ class NewsController extends Controller
 
     /**
      * Форма добавления новости.
-     * @param News $news
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create(News $news)
+    public function create()
     {
         // Получаем все категории.
         $categories = Category::query()->select(['id', 'title'])->get();

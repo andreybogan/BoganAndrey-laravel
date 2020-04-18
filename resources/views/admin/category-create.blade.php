@@ -24,9 +24,10 @@
 
             <div class="card-body">
                 <form method="POST"
-                      action="@if(!$category->id){{ route('admin.category.create') }}@else{{ route('admin.category.update', $category) }}@endif"
+                      action="@if(!$category->id){{ route('admin.category.store') }}@else{{ route('admin.category.update', $category) }}@endif"
                       enctype="multipart/form-data">
                     @csrf
+                    @if($category->id) @method('PUT') @endif
 
                     <div class="form-group row">
                         <label for="title" class="col-md-3 col-form-label text-md-right">Название</label>

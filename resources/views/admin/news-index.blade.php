@@ -33,7 +33,7 @@
                         <p class="h5">{{ $item->title }}</p>
                         <div style="margin: 12px 0 24px 0">
 
-                            <form action="{{ route('admin.news.destroy', $item) }}" method="post" style="display: inline">
+                            <form action="{{ route('admin.news.destroy', $item) }}" method="post">
                                 <a href="{{ route('admin.news.edit', $item) }}">
                                     <button type="button" class="btn btn-success">Редактировать</button>
                                 </a>
