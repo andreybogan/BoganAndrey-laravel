@@ -3,7 +3,7 @@
 
 {{-- title --}}
 @section('title')
-    Админка | добавление новости
+    Админка | @if($news->id) Изменение @else Добавление @endif новости
 @endsection
 
 {{-- Основная навигация --}}
@@ -14,11 +14,13 @@
 @section('content')
     <div class="col-md-8">
         <div style="margin: 0 0 24px 0">
-            <a href="{{ route('admin.news.index') }}"><button type="button" class="btn btn-link">Вернуться к списку новостей</button></a>
+            <a href="{{ route('admin.news.index') }}">
+                <button type="button" class="btn btn-link">Вернуться к списку новостей</button>
+            </a>
         </div>
 
         <div class="card">
-            <div class="card-header">Добавление новости</div>
+            <div class="card-header">@if($news->id) Изменение @else Добавление @endif новости</div>
 
             <div class="card-body">
                 <form method="POST"
@@ -31,7 +33,7 @@
 
                         <div class="col-md-9">
                             <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
-                                   name="title" value="{{ $news->title ?? old('title') }}" required autocomplete="title"
+                                   name="title" value="{{ $news->title ?? old('title') }}" autocomplete="title"
                                    autofocus>
 
                             @error('title')
@@ -47,8 +49,8 @@
                                class="col-md-3 col-form-label text-md-right">Категория новости</label>
 
                         <div class="col-md-9">
-                            <select id="category" class="form-control @error('category') is-invalid @enderror"
-                                    name="category_id" required autocomplete="category">
+                            <select id="category" class="form-control @error('category_id') is-invalid @enderror"
+                                    name="category_id" autocomplete="category">
                                 <option>Выберите категорию</option>
                                 @foreach($categories as $item)
                                     <option value="{{ $item->id }}"
@@ -56,7 +58,7 @@
                                 @endforeach
                             </select>
 
-                            @error('category')
+                            @error('category_id')
                             <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -69,8 +71,7 @@
 
                         <div class="col-md-9">
                         <textarea id="text" class="form-control @error('text') is-invalid @enderror" name="text"
-                                  rows="5" required
-                                  autocomplete="text">{{ $news->text ?? old('text') }}</textarea>
+                                  rows="5" autocomplete="text">{{ $news->text ?? old('text') }}</textarea>
 
                             @error('text')
                             <span class="invalid-feedback" role="alert">
@@ -83,7 +84,13 @@
                     <div class="form-group row">
                         <label for="image" class="col-md-3 col-form-label text-md-right">Изображение</label>
                         <div class="col-md-9">
-                            <input id="image" type="file" name="image">
+                            <input id="image" type="file" name="image" class="@error('image') is-invalid @enderror">
+
+                            @error('image')
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
                         </div>
                     </div>
 
@@ -103,7 +110,7 @@
                     <div class="form-group row mb-0">
                         <div class="col-md-6 offset-md-3">
                             <button type="submit" class="btn btn-primary">
-                                @if($news->id) Изменить @else Добавить @endif новость
+                                @if($news->id){{__('Изменить')}}@else{{__('Добавить')}}@endif новость
                             </button>
                         </div>
                     </div>

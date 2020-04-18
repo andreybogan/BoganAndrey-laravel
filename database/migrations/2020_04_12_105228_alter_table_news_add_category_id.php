@@ -17,7 +17,8 @@ class AlterTableNewsAddCategoryId extends Migration
             $table->bigInteger('category_id')->unsigned();
             $table->foreign('category_id')
                 ->references('id')
-                ->on('categories');
+                ->on('categories')
+                ->onDelete('cascade');
         });
     }
 

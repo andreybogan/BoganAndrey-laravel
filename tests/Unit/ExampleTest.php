@@ -22,12 +22,12 @@ class ExampleTest extends TestCase
     public function testNewsTest()
     {
         $news = new News();
-        $this->assertIsArray(News::getNews());
+        $this->assertIsObject($news);
     }
 
     public function testCategoryTest()
     {
-        $news = new News();
-        $this->assertIsArray(Category::getCategory());
+        $category = new Category();
+        $this->assertIsObject($category);
     }
 }

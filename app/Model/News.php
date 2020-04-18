@@ -6,7 +6,39 @@ use Illuminate\Database\Eloquent\Model;
 
 class News extends Model
 {
-    protected $fillable = ['title', 'text', 'private', 'category_id'];
+    protected $fillable = ['title', 'text', 'private', 'category_id', 'image'];
+
+    /**
+     * Метод возвращает правила валидации.
+     * @return array
+     */
+    public static function rules()
+    {
+        $tableNameCategory = (new Category())->getTable();
+
+        return [
+            'title' => 'required|min:5|max:255',
+            'text' => 'required|min:10',
+            'private' => 'boolean',
+            'category_id' => "required|exists:{$tableNameCategory},id",
+            'image' => 'mimes:jpeg,gif,png',
+        ];
+    }
+
+    /**
+     * Метод возвращает название атрибутов.
+     * @return array
+     */
+    public static function attributeNames()
+    {
+        return [
+            'title' => 'Название',
+            'text' => 'Содержание новости',
+            'private' => 'Приватная новость',
+            'category_id' => 'Категория новости',
+            'image' => 'Изображение',
+        ];
+    }
 
     /**
      * Метод позволяет преобразовать текст в котором перевод строки обозначен \r\n таким образом, чтобы
@@ -43,11 +75,11 @@ class News extends Model
     }
 
     /**
-     * Получаем категорию новости текующего объекта.
+     * Получаем запрос категории новости текующего объекта.
      * @return Model|\Illuminate\Database\Eloquent\Relations\BelongsTo|object|null
      */
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id')->first();
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }
