@@ -20,7 +20,7 @@
         </div>
 
         <div class="card">
-            <div class="card-header">Добавление категории</div>
+            <div class="card-header">@if($category->id) Изменение @else Добавление @endif категории</div>
 
             <div class="card-body">
                 <form method="POST"
@@ -33,7 +33,7 @@
 
                         <div class="col-md-9">
                             <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
-                                   name="title" value="{{ $category->title ?? old('title') }}" autocomplete="title"
+                                   name="title" value="{{ empty(old()) ? $category->title : old('title') }}" autocomplete="title"
                                    autofocus>
 
                             @error('title')

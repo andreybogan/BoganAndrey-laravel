@@ -33,7 +33,7 @@
 
                         <div class="col-md-9">
                             <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
-                                   name="title" value="{{ $news->title ?? old('title') }}" autocomplete="title"
+                                   name="title" value="{{ empty(old()) ? $news->title : old('title') }}" autocomplete="title"
                                    autofocus>
 
                             @error('title')
@@ -51,10 +51,12 @@
                         <div class="col-md-9">
                             <select id="category" class="form-control @error('category_id') is-invalid @enderror"
                                     name="category_id" autocomplete="category">
-                                <option>Выберите категорию</option>
+                                <option selected>Выберите категорию</option>
                                 @foreach($categories as $item)
                                     <option value="{{ $item->id }}"
-                                            @if(in_array($item->id, [$news->category_id, old('category_id')])) selected @endif>{{ $item->title }}</option>
+                                            @if(old('category_id') && old('category_id') == $item->id) selected
+                                            @elseif(!old('category_id') && $news->category_id == $item->id) selected
+                                        @endif>{{ $item->title }}</option>
                                 @endforeach
                             </select>
 
@@ -71,7 +73,7 @@
 
                         <div class="col-md-9">
                         <textarea id="text" class="form-control @error('text') is-invalid @enderror" name="text"
-                                  rows="5" autocomplete="text">{{ $news->text ?? old('text') }}</textarea>
+                                  rows="5" autocomplete="text">{{ empty(old()) ? $news->text : old('text') }}</textarea>
 
                             @error('text')
                             <span class="invalid-feedback" role="alert">
@@ -98,7 +100,10 @@
                         <div class="col-md-9 offset-md-3">
                             <div class="form-check">
                                 <input type="checkbox" name="private" value="1" id="private"
-                                       @if($news->private == 1 || old('private') == 1) checked @endif>
+                                       {{--                                       @if($news->private == 1 || old('private') == 1) checked @endif>--}}
+                                       @if(old('private') && old('private') == 1) checked
+                                       @elseif(empty(old()) && $news->private == 1) checked
+                                    @endif>
 
                                 <label class="form-check-label" for="private">
                                     приватная новость
