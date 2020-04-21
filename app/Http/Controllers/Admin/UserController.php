@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -32,12 +31,18 @@ class UserController extends Controller
         // Мы не можем лишить прав админа самого себя.
         if ($user->id != Auth::id()) {
             // Меняем значения is_admin на противоположное.
-            $user->is_admin = !$user->is_admin;
+            if ($user->is_admin) {
+                $user->is_admin = false;
+                $message = 'Пользователь ' . $user->name . ' лишен прав администратора.';
+            } else {
+                $user->is_admin = true;
+                $message = 'Пользователь ' . $user->name . ' наделен правами администратора.';
+            }
 
             // Сохраняем изменения.
             $user->save();
 
-            return redirect()->route('admin.user.index')->with('success', 'Права изменены');
+            return redirect()->route('admin.user.index')->with('success', $message);
         }
 
         return redirect()->route('admin.user.index')->with('error', 'Возникла ошибка при изменении прав');
