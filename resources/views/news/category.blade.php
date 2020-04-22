@@ -22,7 +22,7 @@
 
             @foreach($categories as $item)
                 <a href="{{ route('news.category.view', $item->slug) }}">
-                    <button type="button" class="btn {{ $item->id == $category->id ? 'btn-primary' : 'btn-dark'}}">{{ $item->title }}</button>
+                    <button type="button" class="btn {{ $item->id == $category->id ? 'btn-primary' : 'btn-dark'}}" style="margin-bottom: 4px;">{{ $item->title }}</button>
                 </a>
             @endforeach
 

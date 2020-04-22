@@ -22,6 +22,9 @@
                 <a href="{{ route('admin.news.create') }}">
                     <button type="button" class="btn btn-primary">Добавить новость</button>
                 </a>
+                <a href="{{ route('admin.parser') }}">
+                    <button type="button" class="btn btn-primary">Спарсить новости с Lenta.ru</button>
+                </a>
             </div>
 
             <h2>Список новостей</h2>

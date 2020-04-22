@@ -55,6 +55,7 @@ route::group([
         });
     });
 
+    Route::get('/parser', 'ParserController@index')->name('parser');
 });
 
 route::group([
