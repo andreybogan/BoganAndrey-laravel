@@ -4,6 +4,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Auth;
 
 class Category extends Model
 {
@@ -16,7 +17,7 @@ class Category extends Model
     public static function rules()
     {
         return [
-            'title' => 'required|min:5|max:45',
+            'title' => ['required','min:5','max:45','unique:categories,title'],
         ];
     }
 
