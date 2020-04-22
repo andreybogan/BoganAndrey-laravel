@@ -16,11 +16,11 @@
 
     <div class="col-md-12">
 
-        @if($oneNews && !$oneNews->private)
+        @if(($oneNews && !$oneNews->private) || ($oneNews && Auth::check()))
             <h2>{{ $oneNews->title }}</h2>
             <div class="img-news" style="background-image: url({{ $oneNews->image ?? asset('storage/images/default.jpg') }})"></div>
             <p>{!! $oneNews->text !!}</p>
-        @elseif($oneNews && $oneNews->private)
+        @elseif(($oneNews && $oneNews->private) || ($oneNews && Auth::guest()))
             <h2>{{ $oneNews->title }}</h2>
             <p>Эта новость доступна только зарегистрировавшимся пользвователям.</p>
         @else

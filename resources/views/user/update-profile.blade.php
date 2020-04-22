@@ -1,4 +1,15 @@
+{{-- поключаем основной шаблон --}}
 @extends('layouts.main')
+
+{{-- title --}}
+@section('title')
+    Админка | Редактирование учетных данных пользователя
+@endsection
+
+{{-- Основная навигация --}}
+@section('nav')
+    @include('admin.nav')
+@endsection
 
 @section('content')
     <div class="col-md-8">

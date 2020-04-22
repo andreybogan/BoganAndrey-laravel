@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 use Auth;
 use Hash;
@@ -16,6 +17,8 @@ class ProfileController extends Controller
         $errors = [];
 
         if ($request->isMethod('post')) {
+            // Выполняем валидацию данных.
+            $data = $this->validate($request, User::rules(), [], User::attributeNames());
             if ($request->post('new_password')) {
                 // Проверяем сопадает введенный текущий пароль с сохраненным паролем.
                 if (!Hash::check($request->post('password'), $user->password)) {
