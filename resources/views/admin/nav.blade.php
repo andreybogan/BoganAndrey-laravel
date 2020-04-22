@@ -1,7 +1,3 @@
-<li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
-    <a class="nav-link" href="{{ route('home') }}">Домой</a>
-</li>
-
 <li class="nav-item active">
     <span class="nav-link">Меню администратора: </span>
 </li>
@@ -16,6 +12,10 @@
 
 <li class="nav-item {{ request()->routeIs('admin.category.index') || request()->routeIs('admin.category.create') || request()->routeIs('admin.category.update') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('admin.category.index') }}">Категории</a>
+</li>
+
+<li class="nav-item {{ request()->routeIs('admin.user.show') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('admin.user.index') }}">Пользователи</a>
 </li>
 
 <li class="nav-item">

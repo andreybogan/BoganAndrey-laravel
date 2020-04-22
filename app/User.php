@@ -5,10 +5,35 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
     use Notifiable;
+
+    /**
+     * Метод возвращает правила валидации.
+     * @return array
+     */
+    public static function rules()
+    {
+        return [
+            'name' => 'required|string|min:3|max:255',
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . Auth::id()],
+        ];
+    }
+
+    /**
+     * Метод возвращает название атрибутов.
+     * @return array
+     */
+    public static function attributeNames()
+    {
+        return [
+            'name' => 'Имя пользователя',
+            'email' => 'E-Mail адрес',
+        ];
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +41,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
+        'is_admin',
     ];
 
     /**
@@ -25,7 +53,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**

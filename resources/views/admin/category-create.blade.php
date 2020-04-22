@@ -20,20 +20,21 @@
         </div>
 
         <div class="card">
-            <div class="card-header">Добавление категории</div>
+            <div class="card-header">@if($category->id) Изменение @else Добавление @endif категории</div>
 
             <div class="card-body">
                 <form method="POST"
-                      action="@if(!$category->id){{ route('admin.category.create') }}@else{{ route('admin.category.update', $category) }}@endif"
+                      action="@if(!$category->id){{ route('admin.category.store') }}@else{{ route('admin.category.update', $category) }}@endif"
                       enctype="multipart/form-data">
                     @csrf
+                    @if($category->id) @method('PUT') @endif
 
                     <div class="form-group row">
                         <label for="title" class="col-md-3 col-form-label text-md-right">Название</label>
 
                         <div class="col-md-9">
                             <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
-                                   name="title" value="{{ $category->title ?? old('title') }}" autocomplete="title"
+                                   name="title" value="{{ empty(old()) ? $category->title : old('title') }}" autocomplete="title"
                                    autofocus>
 
                             @error('title')

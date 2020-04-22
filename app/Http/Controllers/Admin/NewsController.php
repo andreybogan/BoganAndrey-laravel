@@ -23,12 +23,10 @@ class NewsController extends Controller
     }
 
     /**
-     * Добавление новости.
-     * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
-     * @throws \Illuminate\Validation\ValidationException
+     * Форма добавления новости.
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create(Request $request)
+    public function create()
     {
         // Получаем все категории.
         $categories = Category::query()->select(['id', 'title'])->get();
@@ -36,12 +34,24 @@ class NewsController extends Controller
         // Создаем новый объект новости.
         $news = new News();
 
-        // Если переданные данные, то обрабатываем их и перенаправляем на страницу со списком новостей.
-        if ($this->isMethodPostSaveNews($request, $news)) {
-            return redirect()->route('admin.news.index')->with('success', 'Новость успешно добавлена!');
-        }
-
         return view('admin.news-create', ['categories' => $categories, 'news' => $news]);
+    }
+
+    /**
+     * Добавляем новость.
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function store(Request $request)
+    {
+        // Создаем новый объект новости.
+        $news = new News();
+
+        // Обрабатываем полученные данные и, в случае успешной валидации, перенаправляем на страницу со списком новостей.
+        $this->isMethodPostSaveNews($request, $news);
+
+        return redirect()->route('admin.news.index')->with('success', 'Новость успешно добавлена!');
     }
 
     /**
@@ -66,18 +76,10 @@ class NewsController extends Controller
      */
     public function update(Request $request, News $news)
     {
-        // Получаем все категории.
-        $categories = Category::query()->select(['id', 'title'])->get();
+        // Обрабатываем полученные данные и, в случае успешной валидации, перенаправляем на страницу со списком новостей.
+        $this->isMethodPostSaveNews($request, $news);
 
-        // Если переданные данные, то обрабатываем их и перенаправляем на страницу со списком новостей.
-        if ($this->isMethodPostSaveNews($request, $news)) {
-            return redirect()->route('admin.news.index')->with('success', 'Новость успешно изменена!');
-        } else {
-            // Перенесим данные для текущего запроса в сеанс.
-            $request->flash();
-
-            return view('admin.news-create', ['categories' => $categories, 'news' => $news]);
-        }
+        return redirect()->route('admin.news.index')->with('success', 'Новость успешно изменена!');
     }
 
     /**
@@ -104,27 +106,22 @@ class NewsController extends Controller
      */
     private function isMethodPostSaveNews(Request $request, News $news)
     {
-        // Если переданные данные, то обрабатываем их.
-        if ($request->isMethod('post')) {
-            // Выполняем валидацию данных.
-            $data = $this->validate($request, News::rules(), [], News::attributeNames());
+        // Выполняем валидацию данных.
+        $data = $this->validate($request, News::rules(), [], News::attributeNames());
 
-            // Если есть изображением то сохраняем его и добавляем в модель.
-            $url = null;
-            if ($request->file('image')) {
-                $path = Storage::putFile('public/images', $request->file('image'));
-                $news->image = Storage::url($path);
-            }
-
-            // Заполняем модель данными.
-            $news->fill($data);
-
-            // Сохранаяем модель.
-            $news->save();
-
-            return true;
+        // Если есть изображением то сохраняем его и добавляем в модель.
+        $url = null;
+        if ($request->file('image')) {
+            $path = Storage::putFile('public/images', $request->file('image'));
+            $news->image = Storage::url($path);
         }
 
-        return false;
+        // Заполняем модель данными.
+        $news->fill($data);
+
+        // Сохранаяем модель.
+        $news->save();
+
+        return true;
     }
 }

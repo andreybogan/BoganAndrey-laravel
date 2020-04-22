@@ -38,7 +38,7 @@
                     <div class="card-img" style="background-image: url({{ $item->image ?? asset('storage/images/default.jpg') }})"></div>
                     <div class="card-text">
                         <p class="h5">{{ $item->title }}</p>
-                        @if(!$item->private)
+                        @if(!$item->private || Auth::check())
                             <a href="{{ route('news.show', $item) }}">Подробнее...</a>
                         @else
                             <span style="font-size: small; color: #a9a9a9; font-style: italic;">Новость доступна только для зарегистрированных пользователей</span>
