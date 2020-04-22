@@ -22,7 +22,7 @@
                  style="background-image: url({{ $oneNews->image ?? asset('storage/images/default.jpg') }})"></div>
             <p>{!! $oneNews->text !!}</p>
             @if($oneNews->link)
-                <p><a href="{{ $oneNews->link }}"></a></p>
+                <p><a href="{{ $oneNews->link }}" target="_blank">Читать полную версию новости</a></p>
             @endif
         @elseif(($oneNews && $oneNews->private) || ($oneNews && Auth::guest()))
             <h2>{{ $oneNews->title }}</h2>
