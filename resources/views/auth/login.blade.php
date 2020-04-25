@@ -67,7 +67,15 @@
                             @endif
                         </div>
                     </div>
+
                 </form>
+
+                <div class="form-group row mb-0">
+                    <div class="col-md-8 offset-md-4">
+                        <a href="{{ route('vkLogin') }}"><button class="btn btn-primary" style="margin-top: 18px;">Войти через Вконтакте</button></a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
