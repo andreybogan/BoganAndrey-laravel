@@ -67,4 +67,7 @@ route::group([
     Route::match(['get', 'post'], '/user/update-profile', 'ProfileController@update')->name('updateProfile');
 });
 
+Route::get('auth/vk', 'LoginController@loginVK')->name('vkLogin');
+Route::get('auth/vk/response', 'LoginController@responseVK')->name('vkResponse');
+
 Auth::routes();
