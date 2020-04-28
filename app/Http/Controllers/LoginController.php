@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Adaptor\Adaptor;
+use App\User;
 use Illuminate\Http\Request;
 use Socialite;
 use Illuminate\Support\Facades\Auth;
@@ -25,8 +26,19 @@ class LoginController extends Controller
         }
 
         $user = Socialite::driver('vkontakte')->user();
-        dd($user);
-//        $userInSystem = $userAdaptor->getUserBySocId($user, 'vk');
 
+        // Провреяем иникальность email адреса полученного пользователя с уже зарегистрированным пользователем,
+        // Если пользователь существует, то перенаправляем на страницу авторизации с соответствуеющим сообщением.
+        if (User::query()->where(['email' => $user->accessTokenResponseBody['email']])->where(['type_auth' => 'site'])->first()) {
+            return redirect()->route('login');
+        }
+
+        // Получаем пользователя по ID социальной сети.
+        $userInSystem = $userAdaptor->getUserBySocId($user, 'vk');
+
+        // Регистрируем пользователя в системе.
+        Auth::login($userInSystem);
+
+        return redirect()->route('home');
     }
 }

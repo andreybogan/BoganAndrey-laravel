@@ -12,7 +12,7 @@
 @endsection
 
 @section('content')
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div style="margin: 0 0 24px 0">
             <a href="{{ route('admin.news.index') }}">
                 <button type="button" class="btn btn-link">Вернуться к списку новостей</button>
@@ -34,7 +34,8 @@
 
                         <div class="col-md-9">
                             <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
-                                   name="title" value="{{ empty(old()) ? $news->title : old('title') }}" autocomplete="title"
+                                   name="title" value="{{ empty(old()) ? $news->title : old('title') }}"
+                                   autocomplete="title"
                                    autofocus>
 
                             @error('title')
@@ -75,13 +76,18 @@
                         <div class="col-md-9">
                         <textarea id="text" class="form-control @error('text') is-invalid @enderror" name="text"
                                   rows="5" autocomplete="text">{{ empty(old()) ? $news->text : old('text') }}</textarea>
-
+                            <script>
+                                // Replace the <textarea id="editor1"> with a CKEditor
+                                // instance, using default configuration.
+                                CKEDITOR.replace('text');
+                            </script>
                             @error('text')
                             <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                             @enderror
                         </div>
+
                     </div>
 
                     <div class="form-group row">
@@ -98,19 +104,12 @@
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-md-9 offset-md-3">
-                            <div class="form-check">
-                                <input type="checkbox" name="private" value="1" id="private"
-                                       {{--                                       @if($news->private == 1 || old('private') == 1) checked @endif>--}}
-                                       @if(old('private') && old('private') == 1) checked
-                                       @elseif(empty(old()) && $news->private == 1) checked
-                                    @endif>
-
-                                <label class="form-check-label" for="private">
-                                    приватная новость
-                                </label>
-                            </div>
-                        </div>
+                        <label for="private" class="col-md-3 col-form-label text-md-right">Приватная новость</label>
+                            <input type="checkbox" name="private" value="1" id="private" style="margin: 12px 0 0 14px;"
+                                   {{--                                       @if($news->private == 1 || old('private') == 1) checked @endif>--}}
+                                   @if(old('private') && old('private') == 1) checked
+                                   @elseif(empty(old()) && $news->private == 1) checked
+                                @endif>
                     </div>
 
                     <div class="form-group row mb-0">
