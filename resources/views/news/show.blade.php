@@ -20,7 +20,7 @@
             <h2>{{ $oneNews->title }}</h2>
             <div class="img-news"
                  style="background-image: url({{ $oneNews->image ?? asset('storage/images/default.jpg') }})"></div>
-            <p>{!! $oneNews->text !!}</p>
+            <div class="text">{!! $oneNews->text !!}</div>
             @if($oneNews->link)
                 <p><a href="{{ $oneNews->link }}" target="_blank">Читать полную версию новости</a></p>
             @endif

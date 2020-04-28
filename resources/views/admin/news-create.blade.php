@@ -75,12 +75,8 @@
 
                         <div class="col-md-9">
                         <textarea id="text" class="form-control @error('text') is-invalid @enderror" name="text"
-                                  rows="5" autocomplete="text">{{ empty(old()) ? $news->text : old('text') }}</textarea>
-                            <script>
-                                // Replace the <textarea id="editor1"> with a CKEditor
-                                // instance, using default configuration.
-                                CKEDITOR.replace('text');
-                            </script>
+                                  rows="5" autocomplete="text">{!! empty(old()) ? $news->text : old('text') !!}</textarea>
+
                             @error('text')
                             <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -122,5 +118,18 @@
                 </form>
             </div>
         </div>
+        <script src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
+
+        <script>
+            // Replace the <textarea id="editor1"> with a CKEditor
+            // instance, using default configuration.
+            CKEDITOR.replace('text', {
+                customConfig: 'my_config.js',
+                filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+                filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+                filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+                filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+            });
+        </script>
     </div>
 @endsection

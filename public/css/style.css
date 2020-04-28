@@ -28,3 +28,7 @@
     background-size: cover;
     background-repeat: no-repeat;
 }
+
+.text img {
+    margin: 0 12px 12px 0;
+}

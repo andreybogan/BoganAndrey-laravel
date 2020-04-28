@@ -1,5 +1,5 @@
 <li class="nav-item active">
-    <span class="nav-link">Меню администратора: </span>
+    <span class="nav-link">Админка: </span>
 </li>
 
 <li class="nav-item {{ request()->routeIs('admin.index') ? 'active' : '' }}">

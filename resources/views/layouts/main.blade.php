@@ -107,17 +107,6 @@
 
 {{-- Подключаем JS --}}
 <script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
-
-<script>
-    // Replace the <textarea id="editor1"> with a CKEditor
-    // instance, using default configuration.
-    CKEDITOR.replace('text', {
-        customConfig: 'my_config.js'
-    });
-
-
-</script>
 
 </body>
 </html>
