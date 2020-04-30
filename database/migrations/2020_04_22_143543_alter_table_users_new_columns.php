@@ -23,7 +23,7 @@ class AlterTableUsersNewColumns extends Migration
             $table->string('avatar', 150)
                 ->default('')
                 ->comment('Ссылка на аватарку');
-            $table->index('id_in_soc');
+            $table->index('id_in_soc', 'users_id_in_soc_index');
         });
     }
 
@@ -35,10 +35,10 @@ class AlterTableUsersNewColumns extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->dropIndex('users_id_in_soc_index');
             $table->dropColumn(['id_in_soc']);
             $table->dropColumn(['type_auth']);
             $table->dropColumn(['avatar']);
-            $table->dropIndex('id_in_soc');
         });
     }
 }

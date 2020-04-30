@@ -44,6 +44,11 @@ route::group([
         abort(404);
     });
 
+    Route::resource('/resource', 'ResourceController')->except('show');
+    Route::get('/resource/{some}', function () {
+        abort(404);
+    });
+
     route::group([
         'prefix' => 'user',
         'as' => 'user.'

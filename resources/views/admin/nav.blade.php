@@ -14,6 +14,10 @@
     <a class="nav-link" href="{{ route('admin.category.index') }}">Категории</a>
 </li>
 
+<li class="nav-item {{ request()->routeIs('admin.resource.index') || request()->routeIs('admin.resource.create') || request()->routeIs('admin.resource.update') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('admin.resource.index') }}">RSS ресурсы</a>
+</li>
+
 <li class="nav-item {{ request()->routeIs('admin.user.show') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('admin.user.index') }}">Пользователи</a>
 </li>

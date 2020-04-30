@@ -2,45 +2,31 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Model\Category;
-use App\Model\News;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Orchestra\Parser\Xml\Facade as XmlParser;
-use DateTime;
+use App\Jobs\NewsParsing;
+use App\Model\Resource;
+use App\Services\XMLParserService;
 
+/**
+ * Class ParserController
+ * @package App\Http\Controllers\Admin
+ */
 class ParserController extends Controller
 {
-    public function index()
+    public function index(XMLParserService $parserService)
     {
-        // Получаем XML файл.
-        $xml = XmlParser::load('https://lenta.ru/rss/news');
+        // Получаем коллекцию ссылок на ресурсы.
+        $linkRss = Resource::all('url')->toArray();
 
-        // Распарсиваем XML.
-        $data = $xml->parse([
-            'news' => ['uses' => 'channel.item[title,link,description,pubDate,enclosure::url,category]'],
-        ]);
-
-        // Обходим все новости и добавляем в базу данных.
-        foreach ($data['news'] as $key => $value) {
-            // Создаем новый объект новости.
-            $newNews = new News();
-
-            // Проверяем существует ли такая новость в базе, если нет, то добавляем ее, если да, то пропускаем.
-            if (!News::query()->where(['link' => $value['link']])->first()) {
-                // Заполняем новую новость данными.
-                $newNews->title = $value['title'];
-                $newNews->text = $value['description'];
-                $newNews->created_at = (new DateTime($value['pubDate']))->format('Y-m-d H:i:s');
-                $newNews->link = $value['link'];
-                $newNews->image = $value['enclosure::url'];
-                // Проверяем, существует ли данная категория, если да, то добавляем ее ID,
-                // если нет, то добавляем ее и добавляем новый ID.
-                $newNews->category_id = Category::getIdCategoryIfNotCreateNew($value['category']);
-                $newNews->save();
-            }
+        // Если ссылок на ресурсы нет, то выводим сообщение об ошибке.
+        if (empty($linkRss)) {
+            return redirect()->route('admin.news.index')->with('error', 'У вас нет ни одной ссылки на RSS ресурсы для парсинга. Пожалуйста, добавьте ресурсы.');
         }
 
-        return redirect()->route('admin.news.index')->with('success', 'Новости добавлены!');
+        foreach ($linkRss as $link) {
+            NewsParsing::dispatch($link['url']);
+        }
+
+        return redirect()->route('admin.news.index')->with('success', 'Новости добавлены! Обновите страницу ...');
     }
 }
